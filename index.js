@@ -12,6 +12,24 @@ import chatbotRoutes from "./routes/chatbot.route.js";
 
 dotenv.config();
 
+// Validate required environment variables
+if (!process.env.DB_URL) {
+    console.error("FATAL ERROR: DB_URL is not defined in environment variables.");
+}
+if (!process.env.JWT_SECREAT) {
+    console.error("WARNING: JWT_SECREAT is not defined. Authentication will fail.");
+}
+
+// Global error handlers for better Vercel logs
+process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception thrown:", err);
+    process.exit(1);
+});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
