@@ -29,7 +29,7 @@ app.use(cors({
 }));
 
 app.get("/", (req, res) => {
-    res.status(200).json({ message: "SiteCheck API is running", status: "OK" });
+    res.status(200).json({ message: "SiteCheck Backend", status: "OK" });
 });
 
 app.use("/api/auth", authRoutes);
@@ -43,7 +43,7 @@ export default app;
 // Only listen locally if not on Vercel
 if (process.env.NODE_ENV !== "production") {
     app.listen(PORT, () => {
-        console.log("Server is running on port:" + PORT);
+        console.log("Server is running on port..:" + PORT);
         connectDB();
     });
 } else {
