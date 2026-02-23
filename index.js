@@ -35,13 +35,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
-app.use(cors({
+
+const corsOptions = {
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
         const allowedOrigins = [
             "http://localhost:5173",
             "https://site-check-com.vercel.app",
-            "https://site-check-api.vercel.app/api/auth/check",
             process.env.FRONTEND_URL
         ].filter(Boolean);
         if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
@@ -53,10 +53,11 @@ app.use(cors({
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
-}));
+};
 
+app.use(cors(corsOptions));
 // Explicitly handle preflight requests
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 
 app.get("/", (req, res) => {
     res.status(200).json({ message: "SiteCheck Backend", status: "OK" });
