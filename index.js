@@ -42,7 +42,6 @@ app.use(cors({
             "http://localhost:5173",
             "https://site-check-com.vercel.app",
             "https://site-check-api.vercel.app/api/auth/check",
-            ""
             process.env.FRONTEND_URL
         ].filter(Boolean);
         if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
