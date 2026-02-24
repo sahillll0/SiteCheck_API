@@ -28,7 +28,7 @@ This backend handles authentication, website analysis, report generation, and hi
 Website Audit Engine
 User submits a website URL like:
 
-https://example.com
+(https://site-check-com.vercel.app/)
 
 The analyzer automatically checks:
 
