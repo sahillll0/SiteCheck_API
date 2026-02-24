@@ -13,8 +13,8 @@ export const sendSupportMessage = async (req, res) => {
         return res.status(400).json({ message: "Message and Subject/Issue Type are required" });
     }
 
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        console.error("Missing email credentials in .env file");
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SUPPORT_EMAIL) {
+        console.error("Missing email configuration (SMTP_USER, SMTP_PASS, or SUPPORT_EMAIL)");
         return res.status(500).json({ message: "Server email configuration missing" });
     }
 
@@ -33,11 +33,11 @@ export const sendSupportMessage = async (req, res) => {
             from: process.env.SMTP_USER,
             to: process.env.SUPPORT_EMAIL,
             replyTo: email, // If user provided email, allow reply to them
-            subject: `SiteCheck Support: ${issueType} - ${name || "Anonymous"}`,
+            subject: `SiteCheck Support: ${finalSubject} - ${name || "Anonymous"}`,
             html: `
                 <h3>New Support Message</h3>
                 <p><strong>From:</strong> ${name || "Anonymous"} (${email || "No email provided"})</p>
-                <p><strong>Issue Type:</strong> ${issueType}</p>
+                <p><strong>Subject/Issue:</strong> ${finalSubject}</p>
                 <p><strong>Site URL:</strong> ${siteUrl || "N/A"}</p>
                 <hr />
                 <h4>Message:</h4>
@@ -50,6 +50,13 @@ export const sendSupportMessage = async (req, res) => {
         res.status(200).json({ message: "Support message sent successfully" });
     } catch (error) {
         console.error("Error sending support email:", error);
-        res.status(500).json({ message: "Failed to send message" });
+        res.status(500).json({ message: "Failed to send message", error: error.message });
     }
+};
+res.status(200).json({ message: "Support message sent successfully" });
+    } catch (error) {
+    console.error("Error sending support email:", error);
+    res.status(500).json({ message: "Failed to send message" });
+    res.status(500).json({ message: "Failed to send message", error: error.message });
+}
 };
