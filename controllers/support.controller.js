@@ -4,10 +4,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const sendSupportMessage = async (req, res) => {
-    const { name, email, issueType, message, siteUrl } = req.body;
+    const { name, email, issueType, message, siteUrl, subject } = req.body;
 
-    if (!message || !issueType) {
-        return res.status(400).json({ message: "Message and Issue Type are required" });
+    // Support either issueType or subject
+    const finalSubject = issueType || subject;
+
+    if (!message || !finalSubject) {
+        return res.status(400).json({ message: "Message and Subject/Issue Type are required" });
     }
 
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
