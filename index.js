@@ -44,12 +44,13 @@ app.use((req, res, next) => {
 
 const corsOptions = {
     origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl)
         if (!origin) return callback(null, true);
 
         const allowedOrigins = [
+            "https://site-check-com.vercel.app",
             "http://localhost:5173",
             "http://127.0.0.1:5173",
-            "https://site-check-com.vercel.app",
         ];
 
         if (process.env.FRONTEND_URL) {
