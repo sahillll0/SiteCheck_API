@@ -29,25 +29,21 @@ export const signup = async (req, res) => {
             password: hashedPassword,
         });
 
-        if (newUser) {
-            // generate jwt token here
-            const token = generateToken(newUser._id, res);
-            newUser.token = token;
-            await newUser.save();
+        const token = generateToken(newUser._id, res);
+        newUser.token = token;
 
-            res.status(201).json({
-                _id: newUser._id,
-                fullName: newUser.fullName,
-                email: newUser.email,
-                profilePic: newUser.profilePic,
-                token: token,
-            });
-        } else {
-            res.status(400).json({ message: "Invalid user data" });
-        }
+        await newUser.save();
+
+        res.status(201).json({
+            _id: newUser._id,
+            fullName: newUser.fullName,
+            email: newUser.email,
+            profilePic: newUser.profilePic,
+            token: token,
+        });
     } catch (error) {
-        console.log("Error in signup controller", error.message);
-        res.status(500).json({ message: "Internal Server Error" });
+        console.error("Error in signup controller:", error);
+        res.status(500).json({ message: error.message || "Internal Server Error" });
     }
 };
 

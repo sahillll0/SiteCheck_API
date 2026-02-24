@@ -20,12 +20,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
-        token: [
-            {
+        token: {
             type: String,
             default: "",
-        }
-        ],
+        },
     },
     { timestamps: true }
 );
