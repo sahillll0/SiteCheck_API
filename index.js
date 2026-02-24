@@ -50,7 +50,7 @@ const corsOptions = {
         const allowedOrigins = [
             "https://site-check-com.vercel.app",
             "http://localhost:5173",
-            "http://127.0.0.1:5173",
+            "http://127.0.0.1:5173"
         ];
 
         if (process.env.FRONTEND_URL) {
